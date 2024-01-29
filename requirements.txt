@@ -9,3 +9,4 @@ piq
 fitz
 matplotlib
 scipy
+opencv-python
