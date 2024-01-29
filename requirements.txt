@@ -4,6 +4,6 @@ pandas
 onnxruntime
 torch
 doctr
-sklearn
+scikit-learn
 piq
 fitz
