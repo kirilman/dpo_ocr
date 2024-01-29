@@ -3,7 +3,7 @@ pillow==10.2.0
 pandas
 onnxruntime
 torch
-doctr
+python-doctr[torch]
 scikit-learn
 piq
 fitz
