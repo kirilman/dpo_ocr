@@ -7,7 +7,7 @@ import os
 os.environ["USE_TORCH"] = "1"
 from doctr.models import ocr_predictor
 import pandas as pd
-from .nms import non_max_suppression
+from app.nms import non_max_suppression
 import onnxruntime as ort
 import torch
 from sklearn.cluster import KMeans
@@ -15,11 +15,7 @@ from sklearn.cluster import KMeans
 # from brisque.brisque import BRISQUE
 from piq import brisque
 
-try:
-    import fitz
-except Exception as er:
-    print(er)
-
+import fitz
 from PIL import Image
 # from pdf2image import convert_from_path
 
@@ -702,7 +698,7 @@ def process_directory(root):
     root = Path(root)
     print(os.getcwd())
     # model = YOLO('./best.pt')
-    for p in Path("./").glob("*.onnx"):
+    for p in Path("./model/").glob("*.onnx"):
         path2model = str(p)
         print(p)
     model = ort.InferenceSession(path2model)
@@ -718,29 +714,30 @@ def process_directory(root):
     #     "../doctr/db_resnet50_20240110-162426.pt", map_location="cuda"
     # )
     # ocr.det_predictor.model.load_state_dict(checkpoint)
-    try:
-        ocr = ocr_predictor(
-            reco_arch="crnn_mobilenet_v3_large",
-            pretrained=False,
-            detect_language=True,
-            detect_orientation=False,
-        )
+    # try:
+    #     ocr = ocr_predictor(
+    #         reco_arch="crnn_mobilenet_v3_large",
+    #         pretrained=False,
+    #         detect_language=True,
+    #         detect_orientation=False,
+    #     )
+    #
+    #     checkpoint_head = torch.load(
+    #         "./crnn_mobilenet_v3_large_pt-f5259ec2.pt", map_location="cpu"
+    #     )
+    #     checkpoint_dec = torch.load("./db_resnet50-ac60cadc.pt", map_location="cpu")
+    #
+    #     ocr.det_predictor.model.load_state_dict(checkpoint_dec)
+    #     ocr.reco_predictor.model.load_state_dict(checkpoint_head)
+    #     print("Модель распознавания текста загружена")
+    # except Exception as e:
 
-        checkpoint_head = torch.load(
-            "./crnn_mobilenet_v3_large_pt-f5259ec2.pt", map_location="cpu"
-        )
-        checkpoint_dec = torch.load("./db_resnet50-ac60cadc.pt", map_location="cpu")
-
-        ocr.det_predictor.model.load_state_dict(checkpoint_dec)
-        ocr.reco_predictor.model.load_state_dict(checkpoint_head)
-        print("Модель распознавания текста загружена")
-    except Exception as e:
-        ocr = ocr_predictor(
-            reco_arch="crnn_mobilenet_v3_large",
-            pretrained=False,
-            detect_language=True,
-            detect_orientation=False,
-        )
+    ocr = ocr_predictor(
+        reco_arch="crnn_mobilenet_v3_large",
+        pretrained=True,
+        detect_language=True,
+        detect_orientation=False,
+    )
 
     result_path = Path("./results")
     if result_path.exists():
@@ -781,7 +778,7 @@ def process_directory(root):
             # )
             # print(e)
             images = [cv2.imread(pdf_file)]
-
+        print(images)
         num_table = 0
         tables = []
         total_quality = False
@@ -877,20 +874,22 @@ def process_directory(root):
                 # img_crop = cv2.erode(img_crop, kernel=np.ones((2, 2), np.uint8))
                 # save crop
 
-                # cv2.imwrite(
-                #     f"./results/crop/{Path(pdf_file).stem}_{np.random.randint(500)}.jpg",
-                #     img_crop,
-                # )
-                try:
-                    result = ocr([img_crop])
-                    coords = collect_ocr_result(result)
-                    # cчитаем уверенность сети
-                    score_one = np.array(
-                        [x["confidence"] for x in list_float_values(coords)]
-                    ).mean()
-                except Exception as e:
-                    print("Неудалось", pdf_file, " ", e)
-                    continue
+                cv2.imwrite(
+                    f"./results/crop/{Path(pdf_file).stem}_{np.random.randint(500)}.jpg",
+                    img_crop,
+                )
+                # try:
+                result = ocr([img_crop])
+
+                coords = collect_ocr_result(result)
+                # cчитаем уверенность сети
+
+                score_one = np.array(
+                    [x["confidence"] for x in list_float_values(coords)]
+                ).mean()
+                # except Exception as e:
+                #     print("Неудалось", pdf_file, " ", e)
+                #     continue
                 img_tensor = (
                     torch.tensor(img_crop / img_crop.max())
                     .unsqueeze(0)
@@ -966,7 +965,7 @@ def process_directory(root):
 
 if __name__ == "__main__":
     # process_directory("./input/")
-    process_directory("./bad_example/")
+    process_directory("./example/")
 
 # process_directory("/storage/reshetnikov/sber_table/dataset/hard/")
 # process_directory("/storage/reshetnikov/sber_table/dataset/tabl/")
