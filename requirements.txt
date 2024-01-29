@@ -1,2 +1,9 @@
 numpy
 pillow==10.2.0
+pandas
+onnxruntime
+torch
+doctr
+sklearn
+piq
+fitz
