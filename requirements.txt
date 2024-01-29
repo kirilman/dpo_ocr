@@ -1,3 +1,2 @@
 numpy
-PIL
-sklearn
+pillow==10.2.0
