@@ -1,9 +1,7 @@
 import numpy as np
-import matplotlib.pyplot as plt  # библиотека Matplotlib для визуализации
 import cv2
 from pathlib import Path
 import os
-
 os.environ["USE_TORCH"] = "1"
 from doctr.models import ocr_predictor
 import pandas as pd
@@ -11,16 +9,13 @@ from app.nms import non_max_suppression
 import onnxruntime as ort
 import torch
 from sklearn.cluster import KMeans
-
 # from brisque.brisque import BRISQUE
 from piq import brisque
-
 import fitz
 from PIL import Image
 # from pdf2image import convert_from_path
 
 IMAGE_EXTENTIONS = (".png", ".jpg", ".jpeg", ".tiff", ".bmp", ".gif", ".webp")
-
 import warnings
 
 warnings.filterwarnings("ignore")
