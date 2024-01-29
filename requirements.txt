@@ -10,3 +10,4 @@ fitz
 matplotlib
 scipy
 opencv-python
+frontend
