@@ -11,4 +11,4 @@ matplotlib
 scipy
 opencv-python
 frontend
-PyMuPDF
+pymupdf
