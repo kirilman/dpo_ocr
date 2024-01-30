@@ -8,11 +8,12 @@
 ```
     python setup.py requrements
 ```
-3. Запустить скрипт
+3. Скачать веса модели(https://drive.google.com/file/d/1OFGl3h1wSAK976HvsloZyA21A2ZRRxf5/view) в app/model 
+4. Запустить скрипт
 ```
     python app/main.py
 ```
-4. Результаты обработки в папке "results"
+5. Результаты обработки в папке "results"
 
 ## Авторы
 - Решетников Кирилл Игоревич 
