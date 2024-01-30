@@ -6,9 +6,9 @@ torch
 python-doctr[torch]
 scikit-learn
 piq
-fitz
 matplotlib
 scipy
+pymupdf
 opencv-python
 frontend
-pymupdf
+fitz
