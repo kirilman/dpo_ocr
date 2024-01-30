@@ -5,7 +5,7 @@ import os
 os.environ["USE_TORCH"] = "1"
 from doctr.models import ocr_predictor
 import pandas as pd
-from app.nms import non_max_suppression
+from nms import non_max_suppression
 import onnxruntime as ort
 import torch
 from sklearn.cluster import KMeans
