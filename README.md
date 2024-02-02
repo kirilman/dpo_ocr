@@ -20,7 +20,7 @@ results/
 1. Положить pdf документы в папку example
 2. Установить зависимости 
 ```
-    python setup.py requrements
+    pip install -r requirements.txt
 ```
 3. Скачать веса модели(https://drive.google.com/file/d/1OFGl3h1wSAK976HvsloZyA21A2ZRRxf5/view) в app/model 
 4. Запустить скрипт
